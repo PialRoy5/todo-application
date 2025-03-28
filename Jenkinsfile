@@ -11,12 +11,17 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'git-credentials', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
                         sh "git clone https://${GIT_USER}:${GIT_PASS}@github.com/PialRoy5/todo-application.git"
-                        sh "cd todo-application"
                     }
                 }
             }
         }
         
+        stage('Build Application') {
+            steps {
+                sh "cd todo-application && mvn clean package -DskipTests"
+            }
+        }
+
         stage('Build and Push Docker') {
             steps {
                 script {
@@ -31,8 +36,8 @@ pipeline {
         
         stage("Deploy") {
             steps {
-                sh "docker compose -f todo-application/docker-compose.yml down || exit 0"
-                sh "docker compose -f todo-application/docker-compose.yml up -d"
+                sh "docker compose -f todo-application/docker-compose.yaml down || exit 0"
+                sh "docker compose -f todo-application/docker-compose.yaml up -d"
             }
         }
         
