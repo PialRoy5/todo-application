@@ -1,0 +1,18 @@
+kubectl create secret docker-registry my-registry-secret \
+    --docker-server=https://index.docker.io/v1/ \
+    --docker-username=pialroy5 \
+    --docker-password=PrPial5678. \
+    --docker-email=pialroy5@gmail.com
+
+
+    kubectl apply -f mysql-deployment.yaml
+kubectl apply -f todo-application-deployment.yaml
+
+
+minikube ip
+
+
+kubectl get pods
+
+
+kubectl get svc
