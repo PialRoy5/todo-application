@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        GITHUB_REPO = 'https://github.com/PialRoy5/todo-application.git'
         DOCKER_IMAGE = 'pialroy5/todo-application-image:latest'
     }
 
@@ -10,7 +9,10 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    git branch: 'master', url: GITHUB_REPO
+                    withCredentials([usernamePassword(credentialsId: 'git-credentials', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+                        sh "git clone https://${GIT_USER}:${GIT_PASS}@github.com/PialRoy5/todo-application.git"
+                        sh "cd todo-application"
+                    }
                 }
             }
         }
@@ -22,15 +24,15 @@ pipeline {
                         sh "docker login -u $DOCKER_USER -p $DOCKER_PASSWORD"
                     }
                 }
-                sh "docker build -t ${DOCKER_IMAGE} ."
+                sh "docker build -t ${DOCKER_IMAGE} todo-application"
                 sh "docker push ${DOCKER_IMAGE}"
             }
         }
         
         stage("Deploy") {
             steps {
-                sh "docker compose down || exit 0"
-                sh "docker compose up -d"
+                sh "docker compose -f todo-application/docker-compose.yml down || exit 0"
+                sh "docker compose -f todo-application/docker-compose.yml up -d"
             }
         }
         
@@ -42,7 +44,7 @@ pipeline {
         
         stage("Clean") {
             steps {
-                sh "rm -rf *"
+                sh "rm -rf todo-application"
             }
         }
     }

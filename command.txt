@@ -16,3 +16,5 @@ kubectl get pods
 
 
 kubectl get svc
+
+sudo usermod -aG docker jenkins
