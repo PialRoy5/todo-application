@@ -5,7 +5,7 @@ kubectl create secret docker-registry my-registry-secret \
     --docker-email=pialroy5@gmail.com
 
 
-    kubectl apply -f mysql-deployment.yaml
+kubectl apply -f mysql-deployment.yaml
 kubectl apply -f todo-application-deployment.yaml
 
 
@@ -18,3 +18,7 @@ kubectl get pods
 kubectl get svc
 
 sudo usermod -aG docker jenkins
+
+checks --
+docker volume ls
+docker volume inspect mysql_data
