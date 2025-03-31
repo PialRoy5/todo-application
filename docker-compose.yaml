@@ -10,7 +10,7 @@ volumes:
 
 services:
 
-  mysql-db:
+  mysql-db-service:
     image: mysql:latest
     container_name: mysql-db
     restart: always
@@ -26,7 +26,7 @@ services:
 
   todo-application:
     container_name: todo-application
-    image: pialroy5/todo-application-image:latest
+    image: todo-application-image:latest
     ports:
       - "8082:8081"
     depends_on:
@@ -34,7 +34,7 @@ services:
     networks:
       - todo-network
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/tododb
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db-service:3306/tododb
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Root@123
 
