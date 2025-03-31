@@ -9,6 +9,12 @@ kubectl apply -f mysql-deployment.yaml
 kubectl apply -f todo-application-deployment.yaml
 
 
+git config --global user.name "PialRoy5"
+git config --global user.email "pialroy5@gmail.com"
+
+git remote add origin https://PialRoy5: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@github.com/PialRoy5/todo-application.git
+
+
 minikube ip
 
 
